@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
-    public GameObject[] objectsToDuplicate;  // Assign objects to be duplicated in the Inspector
-    public GameObject clearObject;            // Assign the clear object in the Inspector
+    public GameObject[] objectsToDuplicate;  
+    public GameObject clearObject;           
 
     private List<GameObject> duplicates = new List<GameObject>();  // List to track duplicates
-    private int duplicateCount = 0;           // Track how many duplicates have been created
-    private const int maxDuplicates = 3;      // Maximum number of duplicates allowed
-    private Vector3 lastSpawnPosition;        // Track the last spawn position
+    private int duplicateCount = 0;        
+    private const int maxDuplicates = 3;     
+    public Vector3 spawnPosition = new Vector3(-1.27f,2,-2.57f);
+    
+   
 
     void Update()
     {
@@ -20,12 +22,19 @@ public class ObjectManager : MonoBehaviour
             {
                 DuplicateObject(obj);
                 OutputObjectID(obj);  // Output ID when clicked
+              
             }
         }
 
         // Check for clicks on the clear object
         if (Input.GetMouseButtonDown(0) && IsMouseOverObject(clearObject))
-            ClearDuplicates();
+        {
+               ClearDuplicates();
+              
+        }
+        
+      
+          
     }
 
     private bool IsMouseOverObject(GameObject obj)
@@ -34,14 +43,15 @@ public class ObjectManager : MonoBehaviour
         return Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject == obj;
     }
 
-    private void DuplicateObject(GameObject obj)
+    public void DuplicateObject(GameObject obj)
     {
         if (duplicateCount < maxDuplicates)
         {
-            GameObject duplicate = Instantiate(obj, lastSpawnPosition, Quaternion.identity);
+            GameObject duplicate = Instantiate(obj, spawnPosition, Quaternion.identity);
             duplicates.Add(duplicate);  // Track the duplicate
-            lastSpawnPosition += Vector3.right;  // Move position for the next duplicate
+            spawnPosition += Vector3.right*1.5f;  // Move position for the next duplicate
             duplicateCount++;
+            
         }
     }
 
@@ -51,7 +61,7 @@ public class ObjectManager : MonoBehaviour
             Destroy(duplicate);
         duplicates.Clear();  // Reset duplicates
         duplicateCount = 0;  // Reset count
-        lastSpawnPosition = Vector3.zero;  // Reset position
+       spawnPosition = new Vector3(-1.27f, 2, -2.57f);  // Reset position
     }
 
     private void OutputObjectID(GameObject obj)
@@ -62,4 +72,8 @@ public class ObjectManager : MonoBehaviour
             Debug.Log("Object ID: " + objectID.id);
         }
     }
+
+   
+
+
 }

@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using UnityEditor.Rendering;
-using UnityEditor.VersionControl;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
@@ -10,47 +7,60 @@ public class Teleport : MonoBehaviour
     public GameObject object2;
     public GameObject object3;
 
-    public bool panFull = false;
-   
+    public ObjectManager objectManager;
+
+    private void Start()
+    {
+        createAndDestroyClones();
+    }
     private void OnMouseDown()
     {
-     
-          
-            // Find all objects with the tag "Clones"
-            GameObject[] clones = GameObject.FindGameObjectsWithTag("Clones");
-
-            // Loop through each object and destroy it
-            foreach (GameObject clone in clones)
-            {
-                Destroy(clone);
-            }
-        
-        
-
-
-        for (int i = 0; i < 3; i++)
-        {
-            InstantiateRandomObject(i);  
-        }
-       
-
-
-        
+        createAndDestroyClones();
     }
 
-    void InstantiateRandomObject(int x)
+
+
+
+
+
+    public void createAndDestroyClones()
     {
-        // Create an array with the GameObjects
+
+        // Destroy all current clones
+        DestroyClones();
+
+        // After destroying, instantiate new random objects
+        for (int i = 0; i < 3; i++)
+
+            InstantiateRandomObject(i);
+    }
+
+
+    void InstantiateRandomObject(int index)
+    {
+        // Array of objects to randomly pick from
         GameObject[] objects = { object1, object2, object3 };
 
         // Get a random index
         int randomIndex = Random.Range(0, objects.Length);
 
-        // Instantiate the randomly selected GameObject at a desired position and rotation
-        GameObject newObject = Instantiate(objects[randomIndex], new Vector3(x * 1.5f - 2, 0, 0), Quaternion.identity); // Change Vector3.zero to your desired position
+        // Instantiate the selected object at a new position
+        Vector3 spawnPosition = new Vector3(index * 1.5f -8, -3.25f, 0);
+        GameObject newObject = Instantiate(objects[randomIndex], spawnPosition, Quaternion.identity);
 
         // Tag the new object as "Clones"
         newObject.tag = "Clones";
     }
 
+    void DestroyClones()
+    {
+        // Find all GameObjects with the tag "Clones"
+        GameObject[] clones = GameObject.FindGameObjectsWithTag("Clones");
+
+        // Destroy each clone
+        foreach (GameObject clone in clones)
+        {
+            Destroy(clone);
+        }
+    }
 }
