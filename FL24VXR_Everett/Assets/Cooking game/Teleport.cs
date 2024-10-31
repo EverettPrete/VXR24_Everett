@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
@@ -15,7 +16,9 @@ public class Teleport : MonoBehaviour
     }
     private void OnMouseDown()
     {
+        compare();
         createAndDestroyClones();
+        
     }
 
 
@@ -35,7 +38,52 @@ public class Teleport : MonoBehaviour
             InstantiateRandomObject(i);
     }
 
+    void compare()
+    {
+        GameObject[] clones = GameObject.FindGameObjectsWithTag("Clones");
 
+        int recipe1Count = 0, recipe2Count = 0, recipe3Count = 0;
+        int ing1Count = 0, ing2Count = 0, ing3Count = 0;
+        bool match1 = false, match2 = false, match3 = false;
+        Debug.Log("length: "+clones.Length);
+
+        foreach (GameObject clone in clones)
+        {
+       
+            string name = clone.name;
+            Debug.Log("Clone name: " + name);
+
+            if (name.StartsWith("Recipe"))
+            {
+                if (name.EndsWith("1(Clone)")) recipe1Count++;
+                else if (name.EndsWith("2(Clone)")) recipe2Count++;
+                else if (name.EndsWith("3(Clone)")) recipe3Count++;
+            }
+            else if (name.StartsWith("Ingredient"))
+            {
+                if (name.EndsWith("1(Clone)")) ing1Count++;
+                else if (name.EndsWith("2(Clone)")) ing2Count++;
+                else if (name.EndsWith("3(Clone)")) ing3Count++;
+            }
+        }
+
+     
+
+        if(recipe1Count == ing1Count) match1 = true;
+        if(recipe2Count == ing2Count) match2 = true;
+        if(recipe3Count == ing3Count) match3 = true;
+
+        if (match1 && match2 && match3)
+        {
+            Debug.Log("All recipes and ingredients have matching counts!");
+        }
+        else
+        {
+            Debug.Log("The counts do not match.");
+        }
+    }
+
+    
     void InstantiateRandomObject(int index)
     {
         // Array of objects to randomly pick from

@@ -1442,7 +1442,7 @@ MonoBehaviour:
   airAbsorptionHigh: 1
   directivity: 1
   directivityInput: 0
-  dipoleWeight: 0.772
+  dipoleWeight: 0.742
   dipolePower: 0.98
   directivityValue: 1
   occlusion: 1

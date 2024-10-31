@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
@@ -51,7 +52,8 @@ public class ObjectManager : MonoBehaviour
             duplicates.Add(duplicate);  // Track the duplicate
             spawnPosition += Vector3.right*1.5f;  // Move position for the next duplicate
             duplicateCount++;
-            
+            duplicate.tag = "Clones";
+
         }
     }
 
