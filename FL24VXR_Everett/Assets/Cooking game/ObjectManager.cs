@@ -41,14 +41,14 @@ public class ObjectManager : MonoBehaviour
     private bool IsMouseOverObject(GameObject obj)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject == obj;
+        return Physics.Raycast(ray, out RaycastHit hit) && hit.collider.gameObject == obj;   // check if mouse is over object
     }
 
     public void DuplicateObject(GameObject obj)
     {
         if (duplicateCount < maxDuplicates)
         {
-            GameObject duplicate = Instantiate(obj, spawnPosition, Quaternion.identity);
+            GameObject duplicate = Instantiate(obj, spawnPosition, Quaternion.identity);   //make another object and move it to the pan
             duplicates.Add(duplicate);  // Track the duplicate
             spawnPosition += Vector3.right*1.5f;  // Move position for the next duplicate
             duplicateCount++;
@@ -69,9 +69,9 @@ public class ObjectManager : MonoBehaviour
     private void OutputObjectID(GameObject obj)
     {
         ObjectID objectID = obj.GetComponent<ObjectID>();
-        if (objectID != null)
+        if (objectID != null)                              
         {
-            Debug.Log("Object ID: " + objectID.id);
+            Debug.Log("Object ID: " + objectID.id);   //display object id to log
         }
     }
 
