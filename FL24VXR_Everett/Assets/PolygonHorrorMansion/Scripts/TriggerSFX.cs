@@ -25,7 +25,7 @@ public class TriggerSFX : MonoBehaviour
         {
             StartCoroutine(FlickerAndTurnOff());
 
-            thunder.volume = 0.2f;
+            thunder.volume = 0.0f;
             lightsSound.Play();
             Debug.Log("yippeee");
 
