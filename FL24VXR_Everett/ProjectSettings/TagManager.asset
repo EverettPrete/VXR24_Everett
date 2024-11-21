@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Clones
   - Food
+  - Dough
+  - ColliderObject1
+  - ColliderObject2
+  - Spoon
+  - Container
   layers:
   - Default
   - TransparentFX

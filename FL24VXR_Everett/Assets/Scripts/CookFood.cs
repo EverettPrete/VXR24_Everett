@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CookFood : MonoBehaviour
 {
@@ -16,12 +18,20 @@ public class CookFood : MonoBehaviour
     public Color originalColor = Color.black;
 
     public Color targetColor = Color.black;
-    
+    public TMP_Text TimerTime;
+    public float TotalCookTime = 5;
+
+
+  
+
 
     private void OnTriggerStay(Collider other)
     {
+        
         if (ButtonDown.burnerOn)
         {
+           
+
             // Check if the object has the tag "Food"
             if (other.CompareTag("Food"))
             {
@@ -35,36 +45,46 @@ public class CookFood : MonoBehaviour
                 cookScores[other.gameObject] += heat * Time.deltaTime;
 
                 // Check if the object is fully cooked
-                if (cookScores[other.gameObject] > 5)
+                if (cookScores[other.gameObject] > TotalCookTime)
                 {
-                    if (targetRenderer != null)
-                    {
+                    
                         targetRenderer.material.color = newColor;
-                    }
+                    
                   
                 }
                 else { targetRenderer.material.color = originalColor; }
 
-                // Smoothly interpolate the color of the object
+                
                 Renderer objectRenderer = other.GetComponent<Renderer>();
                 if (objectRenderer != null)
                 {
                     Color currentColor = objectRenderer.material.color;
-                    Color newColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * heat/8);
+                    Color newColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * heat/(TotalCookTime*2));
                     objectRenderer.material.color = newColor;
                 }
                 else
                 {
                     Debug.LogWarning($"{other.name} has the tag 'Food' but no Renderer component!");
                 }
+
+               if (TotalCookTime < 0)
+                {
+                    TimerTime.text = "" + (TotalCookTime - (int)cookScores[other.gameObject]);
+                }
+                
+                   
+                
+                
+                    
+                
             }
-            Debug.Log(cookScores[other.gameObject]);
+           
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // Remove the object from the dictionary when it exits the trigger
+       
         if (cookScores.ContainsKey(other.gameObject))
         {
             cookScores.Remove(other.gameObject);
