@@ -11,6 +11,14 @@ TagManager:
   - ColliderObject2
   - Spoon
   - Container
+  - FingerTip
+  - Button
+  - DoughBall
+  - Duplicate
+  - Cheese
+  - Peperoni
+  - Pepers
+  - Ticket
   layers:
   - Default
   - TransparentFX

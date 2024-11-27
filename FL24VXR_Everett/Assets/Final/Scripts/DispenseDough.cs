@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -10,43 +11,44 @@ public class DispenseDough : MonoBehaviour
     public UnityEvent onPress;
     public UnityEvent onRelease;
     GameObject presser;
-    bool isPressed;
+    
     public GameObject Dough;
-    public Vector3 newPosition;
+    public GameObject newPosition;
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        isPressed = false;
-    }
+    public float playbackSpeed = 1.0f;
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
+        {
             button.transform.localPosition = new Vector3(0, 0.02f, 0);
             presser = other.gameObject;
             onPress.Invoke();
-            isPressed = true;
-            Debug.Log("ButtonIsCicked");
-        
+           
+        }
     }
-
     private void OnTriggerExit(Collider other)
     {
-        
+     
+        if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
+        {
             button.transform.localPosition = new Vector3(0, 0.04f, 0);
             onRelease.Invoke();
-            isPressed = false;  
-            Debug.Log("ButtonIsCicked");
-        
-     
+           
+          
+            
+                StartCoroutine(SpawnDoughPause());
+            
+        }
     }
 
-    public void SpawnDough()
+   
+    IEnumerator SpawnDoughPause()
     {
+        // Wait for 2 seconds before spawning the dough
+        yield return new WaitForSeconds(1.25f);  // Change the delay as needed
         GameObject duplicate = Instantiate(Dough);
-        duplicate.transform.position = newPosition;
+        duplicate.transform.position = newPosition.transform.position;
+    
     }
 }

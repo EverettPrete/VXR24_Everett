@@ -9,12 +9,13 @@ public class ButtonDown : MonoBehaviour
     private float score = 0;
     public TMP_Text buttontext;
 
-    public bool burnerOn = true;
+    public bool burnerOn = false;
 
     // Add references for color toggling
     public Renderer targetRenderer; // Renderer of the GameObject to toggle color
     public Color colorA = Color.white; // First color
     public Color colorB = Color.green; // Second color
+    public Light targetLight;
     private bool isColorAToggle = true; // Tracks the current color state
 
     private bool hasInteracted = false; // Flag to prevent multiple interactions
@@ -46,6 +47,7 @@ public class ButtonDown : MonoBehaviour
     private void ToggleBurner()
     {
         burnerOn = !burnerOn; // Toggle the burner state
+      targetLight.enabled = burnerOn;
     }
 
     // Reset interaction flag

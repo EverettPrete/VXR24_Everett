@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlaceDownSauce : MonoBehaviour
 {
     public PickupSauce PickupSauce;
-
+   
     void OnTriggerStay(Collider other)
     {
       
@@ -18,7 +18,7 @@ public class PlaceDownSauce : MonoBehaviour
                 collidedMeshRenderer.enabled = true; // Enable the MeshRenderer
                 PickupSauce.SpoonHasSauce = false; // Reset the flag
             PickupSauce.targetMeshRenderer.enabled = false;
-              
+            
             
         }
     }
