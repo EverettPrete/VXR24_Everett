@@ -1,3 +1,4 @@
+using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -11,31 +12,47 @@ public class SquishDough : MonoBehaviour
     public GameObject button;
     public UnityEvent onPress;
     public UnityEvent onRelease;
-    GameObject presser;
-    bool isPressed;
+    
+
     public GameObject NewSpawnPosition;
    
  
 
     public float playbackSpeed = 1.0f; // Custom playback speed
 
-    [SerializeField] private Animator Cell = null;
+    [SerializeField] private Animator CrusherAnimation = null;
     [SerializeField] private string chooseanimation = "animationName";
+   
+    [SerializeField] private Animator GearAnimator1 = null;
+    [SerializeField] private string chooseanimation1 = "animationName";
+    
+    [SerializeField] private Animator GearAnimator2 = null;
+    [SerializeField] private string chooseanimation2 = "animationName";
+    
+    [SerializeField] private Animator GearAnimator3 = null;
+    [SerializeField] private string chooseanimation3 = "animationName";
+    
+    [SerializeField] private Animator GearAnimator4 = null;
+    [SerializeField] private string chooseanimation4 = "animationName";
+
+    public AudioSource ClickDownSound;
+    public AudioSource ClickUpSound;
+    public AudioSource clunk;
+    public AudioSource Chain;
+    public AudioSource Click;
+
 
     public Vector3 NewPosition;
     public GameObject FlatDough;
     public GameObject BallDough;
     public Collider Collider;
-    bool doughloaded = false;
+   
+  
 
     // Start is called before the first frame update
-    void Start()
-    {
-        isPressed = false;
-    }
+  
 
-    
-
+ 
 
     // Trigger when something enters the trigger collider
     private void OnTriggerEnter(Collider other)
@@ -44,14 +61,14 @@ public class SquishDough : MonoBehaviour
         if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
         {
             button.transform.localPosition = new Vector3(0, 0.02f, 0);
-            presser = other.gameObject;
+           
             onPress.Invoke();
-            isPressed = true;
-            
 
 
-            PlayAnimation();
+            ClickDownSound.Play();
+
             
+            StartCoroutine(ClangSound());
 
         }
     }
@@ -64,19 +81,48 @@ public class SquishDough : MonoBehaviour
         {
             button.transform.localPosition = new Vector3(0, 0.04f, 0);
             onRelease.Invoke();
-            isPressed = false;
-           
+
+
+            ClickUpSound.Play();
 
 
 
-          
+
 
         }
     }
 
     public void PlayAnimation()
     {
-        Cell.Play(chooseanimation, 0, 0.0f);
+     
+     
     }
-   
+
+   public IEnumerator ClangSound()
+    {
+        yield return new WaitForSeconds(.3f);
+        Click.Play();
+
+        yield return new WaitForSeconds(.3f);
+        CrusherAnimation.Play(chooseanimation, 0, 0.0f);
+
+
+
+
+        GearAnimator1.Play(chooseanimation1, 0, 0.0f);
+        GearAnimator2.Play(chooseanimation2, 0, 0.0f);
+        GearAnimator3.Play(chooseanimation3, 0, 0.0f);
+        GearAnimator4.Play(chooseanimation4, 0, 0.0f);
+
+
+        yield return new WaitForSeconds(0.3f);
+        clunk.Play();
+        yield return new WaitForSeconds(.4f);
+        Chain.Play();
+
+
+
+
+    }
+
 }

@@ -19,6 +19,8 @@ TagManager:
   - Peperoni
   - Pepers
   - Ticket
+  - Cooked
+  - SpoonHook
   layers:
   - Default
   - TransparentFX

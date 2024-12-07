@@ -9,6 +9,7 @@ public class TicketScript : MonoBehaviour
     public bool TicketIsOnCounter;
     public GameObject CounterTop;
 
+    public bool IsActive = true;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -34,7 +35,7 @@ public class TicketScript : MonoBehaviour
         {
             if (TicketIsOnCounter)
             {
-                Destroy(transform.parent.gameObject);
+                IsActive = false;
                
             }
         }

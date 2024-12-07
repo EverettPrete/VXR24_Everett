@@ -12,8 +12,8 @@ public class Variablesandoperators : MonoBehaviour
 
         int x = 0;
         float y = 2.5f;
-        string w = "dog";
-        bool hot = false;
+       
+     
 
         //arithmetic operators
         
@@ -23,15 +23,9 @@ public class Variablesandoperators : MonoBehaviour
         //assignment operators
         //comparison operators
         //logical operators
-        if (y % x != 0 && x>5 || y<= 15)
-        {
-            hot = true;
-        }
+      
 
-        if (!!hot)
-        {
-            w = "hotdog";
-        }
+        
         //increment decrement operators
         for (int i = 0; i < x; i++)
         {

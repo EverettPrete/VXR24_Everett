@@ -1,76 +1,111 @@
 using System.Collections;
+using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Topping : MonoBehaviour
 {
     public GameObject ToppingsPrefab; // The prefab to duplicate
     public GameObject FlatToppings;
-    private const string DuplicateTag = "Duplicate";
+ 
     public BoxCollider SpecificBoxCollider; // The specific BoxCollider to check against
     public GameObject TargetObject; // The object to use as the target for duplication
-    public bool canSpawn = true; // Flag to control whether a new duplicate can be spawned
+    public bool OutOfBox = false; // Flag to control whether a new duplicate can be spawned
+    public bool Starting = true;
 
+    public bool WasDuplicatedByTimer = false;
+    public bool WasDuplicatedByCollider = false;  
+
+    public float offset = 0.0005f;
+    public void Start()
+    {
+        OutOfBox = false;
+        WasDuplicatedByCollider = false;
+        WasDuplicatedByTimer = false;
+        if (Starting)
+        {
+            Starting = false;
+
+            DuplicateTopping();
+
+        }
+    
+    }
     private void OnTriggerExit(Collider other)
     {
+
       
-        // Check if the exiting collider is the specific BoxCollider and if we can spawn
-        if (other == SpecificBoxCollider && canSpawn)
+        if (other == SpecificBoxCollider && OutOfBox == false)
         {
-        
-            StartCoroutine(DuplicateTopping());
+            Debug.Log("topping has exited the building");
 
-            canSpawn = true;
+
+
+            StartCoroutine(AntiDuplicationFunction());
+            OutOfBox = true;
         }
     }
 
-    IEnumerator DuplicateTopping()
+
+    IEnumerator AntiDuplicationFunction()
     {
-       
-        yield return new WaitForSeconds(0.5f);
-        if (TargetObject != null)
-        { 
-            Collider[] colliders = Physics.OverlapBox(SpecificBoxCollider.transform.position, SpecificBoxCollider.size / 2, Quaternion.identity);
-            foreach (Collider col in colliders)
-            {            
-                if (col.CompareTag(DuplicateTag))
-                {
-                    
-                    canSpawn = false;
-                    yield break;
-                }
-            }        
-            Vector3 targetPosition = TargetObject.transform.position;   
-            GameObject duplicate = Instantiate(ToppingsPrefab, targetPosition, Quaternion.identity);
-            duplicate.transform.localScale = transform.localScale;
-            Rigidbody rb = duplicate.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;  
-                rb.useGravity = true;    
-            }
-            duplicate.tag = DuplicateTag;
-        }
-        else
+        yield return new WaitForSeconds(2f);
+       if (WasDuplicatedByCollider == false) 
         {
-           
+            Debug.Log("wasduplicatedby timer");
+
+
+            DuplicateTopping();
+            WasDuplicatedByTimer = true;
         }
+
     }
 
+
+
+   
+    private void DuplicateTopping() 
+    { 
+       
+        
+       
+        Vector3 targetPosition = TargetObject.transform.position;   
+            GameObject duplicate = Instantiate(ToppingsPrefab, targetPosition, Quaternion.identity);
+            
+            Rigidbody rb = duplicate.GetComponent<Rigidbody>();
+                rb.isKinematic = false;  
+                rb.useGravity = true;
+                
+            
+
+    }
+
+
+    //this puts the flat topping on the pizza and destroys the ball topping
     private void OnTriggerEnter(Collider other)
     {
-      
-        if (other.CompareTag("Dough") && !canSpawn)
-        {       
-            GameObject duplicate = Instantiate(FlatToppings);
-         
-            duplicate.transform.position = other.transform.position;
-
-            duplicate.transform.SetParent(other.transform);
+        if (other.CompareTag("Cooked") && OutOfBox)
+        {
  
-            
-                Destroy(ToppingsPrefab);
+            GameObject duplicate = Instantiate(FlatToppings, other.transform.position, other.transform.rotation);
+       duplicate.transform.SetParent(other.transform);
+            duplicate.transform.localPosition = new Vector3(0, 0, offset);
            
+
+
+
+            if (WasDuplicatedByTimer == false)
+            {
+             
+                DuplicateTopping();
+                WasDuplicatedByCollider = true;
+                Debug.Log("was duplicated by collider");
+            }
+
+            gameObject.SetActive(false);
+
         }
     }
 
+   
 }

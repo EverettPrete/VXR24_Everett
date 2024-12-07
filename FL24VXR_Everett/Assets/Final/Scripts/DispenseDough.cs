@@ -8,10 +8,20 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class DispenseDough : MonoBehaviour
 {
     public GameObject button;
-    public UnityEvent onPress;
+
     public UnityEvent onRelease;
-    GameObject presser;
-    
+
+    public AudioSource ClickDownSound;
+    public AudioSource ClickUpSound;
+    public AudioSource Mixer;
+    public AudioSource DoughComingOut;
+    public AudioSource SplatSound;
+
+
+    [SerializeField] private Animator Cell = null;
+    [SerializeField] private string chooseanimation1 = "animationName";
+
+
     public GameObject Dough;
     public GameObject newPosition;
 
@@ -22,9 +32,9 @@ public class DispenseDough : MonoBehaviour
         if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
         {
             button.transform.localPosition = new Vector3(0, 0.02f, 0);
-            presser = other.gameObject;
-            onPress.Invoke();
            
+          
+            ClickDownSound.Play();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -33,11 +43,11 @@ public class DispenseDough : MonoBehaviour
         if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
         {
             button.transform.localPosition = new Vector3(0, 0.04f, 0);
-            onRelease.Invoke();
-           
           
-            
-                StartCoroutine(SpawnDoughPause());
+            ClickUpSound.Play();
+
+
+            StartCoroutine(SpawnDoughPause());
             
         }
     }
@@ -45,8 +55,18 @@ public class DispenseDough : MonoBehaviour
    
     IEnumerator SpawnDoughPause()
     {
+        Mixer.Play();
+        Cell.Play(chooseanimation1, 0, 0.0f);
+        yield return new WaitForSeconds(2f);
+        onRelease.Invoke();
+
         // Wait for 2 seconds before spawning the dough
-        yield return new WaitForSeconds(1.25f);  // Change the delay as needed
+        DoughComingOut.Play();
+        yield return new WaitForSeconds(0.3f);
+        
+        SplatSound.Play();
+
+        yield return new WaitForSeconds(1.1f);  // Change the delay as needed
         GameObject duplicate = Instantiate(Dough);
         duplicate.transform.position = newPosition.transform.position;
     
