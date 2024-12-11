@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,7 +21,7 @@ public class RingBell : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
+        if (other.CompareTag("FingerTip"))
         {
             button.transform.localPosition = new Vector3(0, OnEnterZLocation, 0);
             presser = other.gameObject;
@@ -32,7 +31,7 @@ public class RingBell : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Button") || other.CompareTag("FingerTip"))
+        if (other.CompareTag("FingerTip"))
         {
             button.transform.localPosition = new Vector3(0, OnExitZLocation, 0);
          

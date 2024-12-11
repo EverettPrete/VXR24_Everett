@@ -21,12 +21,14 @@ public class PizzaCookingTracker : MonoBehaviour
     public bool PizzaIsRaw = true;
     public bool PizzaIsCooked;
     public bool PizzaIsCrispy;
+    public bool DontRepeat = false;
+    public float OvenCookTimeOffset;
 
     public AudioSource Sizzling;
 
     public void Update()
     {
-        if (CookScore >CookFood.OvenCookTime)
+        if (CookScore >CookFood.OvenCookTime*OvenCookTimeOffset)
         {
             PizzaIsCooked = true;
             PizzaIsRaw = false;
@@ -34,12 +36,13 @@ public class PizzaCookingTracker : MonoBehaviour
             Renderer renderer = CookTimer.GetComponent<Renderer>();
             renderer.material.color = Color.green;
             Debug.Log("pizza is cooked");
-            if (!TimerDing.isPlaying)
+            if (!TimerDing.isPlaying && DontRepeat == false)
             {
                 TimerDing.Play();
+                DontRepeat = true;
             }
         }
-        if (CookScore > CookFood.OvenCookTime+5)
+        if (CookScore > CookFood.OvenCookTime*OvenCookTimeOffset*2)
         {
             PizzaIsCrispy = true;
             PizzaIsCooked = false;

@@ -21,6 +21,7 @@ TagManager:
   - Ticket
   - Cooked
   - SpoonHook
+  - TicketHolderManager
   layers:
   - Default
   - TransparentFX

@@ -16,7 +16,7 @@ public class PickupSauce : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         // Check if the object that collided has the specified tags
-        if (other.CompareTag(triggeringTag1) || other.CompareTag(triggeringTag2))
+        if (other.CompareTag(triggeringTag1))
         {
             Debug.Log("pickedup sauce");
                 targetMeshRenderer.enabled = true;
@@ -25,5 +25,6 @@ public class PickupSauce : MonoBehaviour
                
             
         }
+        
     }
 }

@@ -8,6 +8,9 @@ public class OvenButton : MonoBehaviour
     public AudioSource ClickDownSound;
     public AudioSource ClickUpSound;
 
+    public Light ovenlight1;
+    public Light ovenlight2;
+    public Light ovenlight3;
 
     public GameObject targetObject; // Assign the GameObject in the Inspector
     public Color color1 = Color.black; // First color
@@ -16,6 +19,17 @@ public class OvenButton : MonoBehaviour
     public bool StoveIsOn = false; // Tracks which color is currently active
 
     public GameObject button;
+
+   private void Update()
+    {
+        
+            ovenlight1.enabled = StoveIsOn;
+            ovenlight2.enabled = StoveIsOn;
+            ovenlight3.enabled = StoveIsOn;
+            
+        
+       
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -52,6 +66,9 @@ public class OvenButton : MonoBehaviour
 
         // Get the Renderer component of the target object
         Renderer renderer = targetObject.GetComponent<Renderer>();
+
+        
+
 
         if (renderer != null)
         {

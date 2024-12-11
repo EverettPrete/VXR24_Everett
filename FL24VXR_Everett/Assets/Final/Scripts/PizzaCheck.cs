@@ -44,11 +44,17 @@ public class PizzaCheck : MonoBehaviour
 
     public bool PrintTicket = false;
     public bool StartingTicket = true;
+    public bool StartingBone = false;
 
     public bool TicketIsActive;
     private void Start()
     {
-       
+        if (StartingTicket)
+        {
+            StartingBone = true;
+        }
+        else StartingBone = false;
+
      Rigidbody rb = GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.useGravity = true;
@@ -57,12 +63,11 @@ public class PizzaCheck : MonoBehaviour
         MakeTicket();
         if (StartingTicket == false) { StartCoroutine(TicketSpawner()); }
 
-        if (StartingTicket)
-        {
-            StartingTicket = false;
-            StartCoroutine(TicketDuplicator());
+       
            
-        }
+           
+           
+        
         
 
        
@@ -77,7 +82,7 @@ public class PizzaCheck : MonoBehaviour
         }
         TicketIsActive = TicketScript.IsActive;
     }
-    void MakeTicket()
+    public void MakeTicket()
     {
        
      
@@ -91,8 +96,8 @@ public class PizzaCheck : MonoBehaviour
         ShouldHaveRedOnions = Random.value > 0.5;
 
         RawCheck = Random.Range(0.00f, 10.00f);
-        CookedCheck = Random.Range(0.00f, 10.00f);
-        CrispyCheck = Random.Range(0.00f, 10.00f);
+        CookedCheck = Random.Range(0.00f, 12.00f);
+        CrispyCheck = Random.Range(0.00f, 7.00f);
 
         if ((RawCheck > CookedCheck) && (RawCheck > CrispyCheck))    {Raw = true;}
         else {Raw = false;}
@@ -136,7 +141,7 @@ public class PizzaCheck : MonoBehaviour
 
         
         PrintTicket = false;
-        
+      
 
     }
 
@@ -145,15 +150,21 @@ public class PizzaCheck : MonoBehaviour
 
         
             Debug.Log("ticket is going to print soon");
-            yield return new WaitForSeconds(Random.Range(15, 35));
+            yield return new WaitForSeconds (30);
        StartCoroutine(TicketDuplicator());
            
 
         
     }
-
-    IEnumerator TicketDuplicator()
+    public void MakeFirstTicket()
     {
+        StartingTicket = false;
+        StartCoroutine(TicketDuplicator());
+    }
+
+   IEnumerator TicketDuplicator()
+    {
+      
         Cell.Play(chooseanimation1, 0, 0.0f);
         PrinterSound.Play();
         yield return new WaitForSeconds(1.8f);

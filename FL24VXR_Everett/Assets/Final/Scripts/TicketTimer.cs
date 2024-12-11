@@ -5,6 +5,8 @@ public class TicketTimer : MonoBehaviour
     public float heightOffset = -1f;  // Offset from the parent object
     public float widthOffset = -0.155f;
 
+    public GameObject GameOverCanvas;
+
     public PizzaCheck PizzaCheck;
     public TicketScript TicketScript;
 
@@ -24,7 +26,7 @@ public class TicketTimer : MonoBehaviour
 
     void Start()
     {
-        StartingBone = PizzaCheck.StartingTicket;
+        StartingBone = PizzaCheck.StartingBone;
         // Get the Renderer component
         if (objectRenderer == null)
         {
@@ -66,11 +68,13 @@ public class TicketTimer : MonoBehaviour
         }
 
         //GAME OVER
-        if (fadeTimer > fadeDuration)
+        if (fadeTimer > fadeDuration && TicketScript.IsActive == true)
         {
             TicketColor.material.color = Color.black;
             Debug.Log("GAMEOVER");
+            GameOverCanvas.SetActive(true);
         }
+        
 
 
     }

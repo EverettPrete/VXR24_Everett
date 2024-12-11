@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +8,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class CounterTopCollider : MonoBehaviour
 {
-  
+
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI PizzaRecipeChecking;
 
     public bool IsPizzaOnCounter;
     public bool IsTicketOnCounter;
@@ -42,8 +45,62 @@ public class CounterTopCollider : MonoBehaviour
     public bool TicketIsActive;
 
 
-    public int Score;
+    public int Score = 0;
     //When the pizza or ticket enters
+
+    private void Update()
+    {
+        ScoreText.text = ("Money: " + Score + "$");
+
+       
+        string ingredients = "";
+        ingredients += "Ticket on counter:\n";
+        if (TicketHazCheese) { ingredients += " Pizza Sauce\n"; }
+
+        if (TicketHazPepperoni) { ingredients += " Cheese\n"; }
+
+        if (TicketHazSauce) { ingredients += " Pepperoni\n"; }
+
+        if (TicketHazPeppers) { ingredients += " Peppers\n"; }
+
+        if (TicketHazOlives) { ingredients += " Olives\n"; }
+
+        if (TicketHazMushrooms) { ingredients += " Mushroom\n"; }
+
+        if (TicketHazRedOnions) { ingredients += " RedOnions\n"; }
+
+        if (TicketCrispy) { ingredients += " Crispy\n"; }
+
+        if (TicketCooked) { ingredients += " Cooked\n"; }
+
+        if (TicketRaw) { ingredients += " Raw\n"; }
+        ingredients += "----------------\n";
+        ingredients += "Pizza on counter:\n";
+        if (PizzaHazCheese) { ingredients += " Pizza Sauce\n"; }
+
+        if (PizzaHazPepperoni) { ingredients += " Cheese\n"; }
+
+        if (PizzaHazSauce) { ingredients += " Pepperoni\n"; }
+
+        if (PizzaHazPeppers) { ingredients += " Peppers\n"; }
+
+        if (PizzaHazOlives) { ingredients += " Olives\n"; }
+
+        if (PizzaHazMushrooms) { ingredients += " Mushroom\n"; }
+
+        if (PizzaHazRedOnions) { ingredients += " RedOnions\n"; }
+
+        if (PizzaIsCrispyYay) { ingredients += " Crispy\n"; }
+
+        if (PizzaIsCookedYay) { ingredients += " Cooked\n"; }
+
+        if (PizzaIsRawYay) { ingredients += " Raw\n"; }
+
+
+
+        PizzaRecipeChecking.text = ingredients;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Dough"))
@@ -84,6 +141,7 @@ public class CounterTopCollider : MonoBehaviour
             TicketHazOlives = track.ShouldHaveOlives ;
             TicketHazMushrooms = track.ShouldHaveMushrooms;
             TicketHazRedOnions = track.ShouldHaveRedOnions;
+           
             TicketIsActive = track.TicketIsActive;
 
             TicketRaw = track.Raw;
@@ -133,7 +191,10 @@ public class CounterTopCollider : MonoBehaviour
             IsTicketOnCounter && IsPizzaOnCounter)
         {
             PizzaIsCorrect = true;
+            IsPizzaOnCounter = false;
             Debug.Log("Pizza Is Correct ;)");
+
+            
 
             Score++;
         }
