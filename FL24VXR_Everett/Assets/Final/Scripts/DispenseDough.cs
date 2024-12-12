@@ -66,7 +66,7 @@ public class DispenseDough : MonoBehaviour
         
         SplatSound.Play();
 
-        yield return new WaitForSeconds(1.1f);  // Change the delay as needed
+        yield return new WaitForSeconds(1.25f);  // Change the delay as needed
         GameObject duplicate = Instantiate(Dough);
         duplicate.transform.position = newPosition.transform.position;
     

@@ -49,6 +49,7 @@ public class PizzaCheck : MonoBehaviour
     public bool TicketIsActive;
     private void Start()
     {
+       TicketIsActive = true;
         if (StartingTicket)
         {
             StartingBone = true;
@@ -150,7 +151,7 @@ public class PizzaCheck : MonoBehaviour
 
         
             Debug.Log("ticket is going to print soon");
-            yield return new WaitForSeconds (30);
+            yield return new WaitForSeconds (30-TicketNumber);
        StartCoroutine(TicketDuplicator());
            
 

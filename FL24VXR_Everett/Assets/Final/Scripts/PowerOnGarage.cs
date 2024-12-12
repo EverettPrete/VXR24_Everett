@@ -12,6 +12,8 @@ public class PowerOnGarage : MonoBehaviour
 
     public AudioSource LightFlickerSound;
     public AudioSource MixerStart;
+    public AudioSource BoxOfMeldies;
+
 
     public Light targetLight; // The light to flicker
     public float minIntensity = 0f; // Minimum light intensity
@@ -37,6 +39,7 @@ public class PowerOnGarage : MonoBehaviour
             TurnLightOn();
             LightFlickerSound.Stop();
             MixerStart.Play();
+            BoxOfMeldies.volume = 1;
         }
     }
     

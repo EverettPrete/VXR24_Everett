@@ -5,8 +5,6 @@ using UnityEngine;
 public class PizzaToppingTracker : MonoBehaviour
 {
 
-   
-
     public string CheeseTag = "BallCheese";
     public string PeperoniTag= "BallPepperoni";
     public string PeperTag= "BallPeper";
@@ -14,8 +12,6 @@ public class PizzaToppingTracker : MonoBehaviour
     public string OliveTag = "BallOlive";
     public string MushroomTag = "BallMushroom";
     public string RedOninonTag = "BallRedOnion";
-
-
     
     public PlaceDownSauce PlaceDownSauce;
 
@@ -28,12 +24,6 @@ public class PizzaToppingTracker : MonoBehaviour
     public bool HasRedOnion = false;
 
    
-
-    
-        
-
-    
-
 void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name.Contains("Ball"))
@@ -42,26 +32,38 @@ void OnTriggerEnter(Collider other)
             if (other.gameObject.name.Contains(CheeseTag) && track.OutOfBox == true)
             {
                 HasCheese = true;
+
+                AddFlatTooping(other, track);
             }
             if (other.gameObject.name.Contains(PeperoniTag) && track.OutOfBox == true)
             {
                 HasPeperoni = true;
+
+                AddFlatTooping(other, track);
             }
             if (other.gameObject.name.Contains(PeperTag) && track.OutOfBox == true)
             {
                 HasPeper = true;
+
+                AddFlatTooping(other, track);
             }
             if (other.gameObject.name.Contains(OliveTag) && track.OutOfBox == true)
             {
                 HasOlive = true;
+
+                AddFlatTooping(other, track);
             }
             if (other.gameObject.name.Contains(MushroomTag) && track.OutOfBox == true)
             {
                 HasMushroom = true;
+
+                AddFlatTooping(other, track);
             }
             if (other.gameObject.name.Contains(RedOninonTag) && track.OutOfBox == true)
             {
                 HasRedOnion = true;
+
+                AddFlatTooping(other, track);
             }
         }
         
@@ -73,4 +75,28 @@ void OnTriggerEnter(Collider other)
             }
 
     }
+
+    private void AddFlatTooping(Collider other, Topping track)
+    {
+
+        GameObject duplicate = Instantiate(track.FlatToppings, transform.position, transform.rotation);
+        duplicate.transform.SetParent(transform);
+        duplicate.transform.localPosition = new Vector3(0, 0, track.offset);
+
+/*
+        Vector3 targetPosition = track.TargetObject.transform.position;
+        GameObject replicate = Instantiate(track.ToppingsPrefab, targetPosition, Quaternion.identity);
+        if (track.WasDuplicatedByTimer == false)
+        {
+
+            track.DuplicateTopping();
+            track.WasDuplicatedByCollider = true;
+            Debug.Log("was duplicated by collider");
+        }
+*/
+        other.gameObject.SetActive(false);
+        
+    }
+
+  
 }

@@ -8,8 +8,11 @@ public class TicketKinematicController : MonoBehaviour
     public Rigidbody RigidTicket;
     public string hand1 = "";
     public string hand2 = "";
+
+    public bool sticky = false;
     private void Start()
     {
+        sticky = false;
         if (RigidTicket == null)
         {
             RigidTicket = GetComponent<Rigidbody>();
@@ -19,12 +22,27 @@ public class TicketKinematicController : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void Update()
+    {
+       
+        
+       if (!sticky)
+        {
+            RigidTicket.isKinematic = false;
+        }
+        if (sticky)
+        {
+            RigidTicket.isKinematic = true;
+        }
+
+    }
+    private void OnTriggerStay(Collider other)
     {
         if (other.name == ItemNameContains)
         {
             Debug.Log("ticketenter");
-            RigidTicket.isKinematic = true;
+            sticky = true;
            
         }
 
@@ -34,13 +52,14 @@ public class TicketKinematicController : MonoBehaviour
         if (other.name == ItemNameContains || other.name == hand1 || other.name == hand2)
         {
             Debug.Log("ticketExit");
-            RigidTicket.isKinematic = false;
-            
+            sticky = false;
+
             StartCoroutine(Stupid());
         }
 
 
     }
+
 
     IEnumerator Stupid()
     {
@@ -48,8 +67,7 @@ public class TicketKinematicController : MonoBehaviour
 
        
         yield return new WaitForSeconds(1f);
-        RigidTicket.isKinematic = false;
-
+        sticky = false;
 
 
     }
