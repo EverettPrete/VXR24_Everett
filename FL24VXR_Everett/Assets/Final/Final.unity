@@ -28545,7 +28545,7 @@ MonoBehaviour:
   objectRenderer: {fileID: 1494467133}
   startingEmissionColor: {r: 0.064415455, g: 1, b: 0, a: 1}
   targetEmissionColor: {r: 1, g: 0.008203249, b: 0, a: 1}
-  fadeDuration: 100
+  fadeDuration: 35
   StartingBone: 1
   TicketColor: {fileID: 616377455}
   fadeTimer: 0
@@ -44240,7 +44240,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c26cc927b09fd9f4980aad80535ef404, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0

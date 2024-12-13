@@ -151,7 +151,7 @@ public class PizzaCheck : MonoBehaviour
 
         
             Debug.Log("ticket is going to print soon");
-            yield return new WaitForSeconds (30-TicketNumber);
+            yield return new WaitForSeconds (30-TicketNumber*5);
        StartCoroutine(TicketDuplicator());
            
 
